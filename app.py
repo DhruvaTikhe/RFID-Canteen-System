@@ -59,36 +59,65 @@ def add_balance():
     data = request.json
     card_id = data["rfid_card_id"]
     amount = float(data["amount"])
+    
     with open(students_file) as f:
         students = json.load(f)
-    for s in students:
-        if s["rfid_card_id"] == card_id:
-            s["balance"] += amount
-            break
+
+    student = next((s for s in students if s["rfid_card_id"] == card_id), None)
+
+    if student:
+        student["balance"] += amount
     else:
         # Auto-register new card
-        students.append({"rfid_card_id": card_id, "balance": amount})
+        student = {"rfid_card_id": card_id, "balance": amount}
+        students.append(student)
+
     with open(students_file, "w") as f:
         json.dump(students, f, indent=2)
-    return jsonify({"status": "ok"})
+
+    return jsonify({
+        "status": "ok",
+        "newBalance": student["balance"]
+    })
+
 
 @app.route("/api/order", methods=["POST"])
 def order_food():
-    data = request.json
-    card_id = data["rfid_card_id"]
-    total = float(data["total"])
-    with open(students_file) as f:
+    data = request.get_json()
+    card_id = data.get("rfid_card_id")
+    items = data.get("items", [])
+
+    if not card_id or not items:
+        return jsonify({"error": "Invalid order data"}), 400
+
+    # Load student and menu
+    with open("students.json", "r") as f:
         students = json.load(f)
-    for s in students:
-        if s["rfid_card_id"] == card_id:
-            if s["balance"] >= total:
-                s["balance"] -= total
-                with open(students_file, "w") as f:
-                    json.dump(students, f, indent=2)
-                return jsonify({"status": "ok", "new_balance": s["balance"]})
-            else:
-                return jsonify({"status": "error", "message": "Insufficient balance"}), 400
-    return jsonify({"status": "error", "message": "Card not found"}), 404
+    with open("menu.json", "r") as f:
+        menu = json.load(f)
+
+    student = next((s for s in students if s["rfid_card_id"] == card_id), None)
+    if not student:
+        return jsonify({"error": "Card not found"}), 404
+
+    # Calculate total from items
+    total = 0
+    for item in items:
+        food = item["food"]
+        qty = item["qty"]
+        price = next((m["price"] for m in menu if m["food"] == food), 0)
+        total += price * qty
+
+    if student["balance"] < total:
+        return jsonify({"error": "Insufficient balance"}), 400
+
+    student["balance"] -= total
+
+    with open("students.json", "w") as f:
+        json.dump(students, f, indent=2)
+
+    return jsonify({"total": total, "newBalance": student["balance"]})
+
 
 # -------------------- Debug helper --------------------
 

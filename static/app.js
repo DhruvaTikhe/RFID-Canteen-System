@@ -31,7 +31,7 @@ async function fetchBalance() {
   const res = await fetch('/api/students');
   const students = await res.json();
   const s = students.find(x => x.rfid_card_id === currentCardId);
-  balanceEl.innerText = s ? s.balance : 0;
+  cardBalEl.innerText = s ? s.balance : 0;
 }
 
 setInterval(pollCard, 1000); // check every second
