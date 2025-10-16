@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RFID Canteen System</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body class="section">
+  <div class="container">
+    <h1 class="title has-text-centered">RFID Canteen System</h1>
+    <div class="box">
+      <h2 class="subtitle">Current Card</h2>
+      <p><b>Card ID:</b> <span id="cardId">None</span></p>
+      <p><b>Balance:</b> ₹ <span id="cardBalance">0.00</span></p>
+    </div>
+
+    <div class="box">
+      <h2 class="subtitle">Add Balance</h2>
+      <input class="input" id="addAmount" type="number" placeholder="Amount ₹">
+      <button class="button is-primary mt-2" id="addBtn">Add</button>
+      <p class="mt-2 has-text-success" id="addMsg"></p>
+    </div>
+
+    <div class="box">
+      <h2 class="subtitle">Menu</h2>
+      <div id="menuList"></div>
+      <button class="button is-success mt-3" id="orderBtn">Order Cart</button>
+      <p class="mt-2 has-text-info" id="orderMsg"></p>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
