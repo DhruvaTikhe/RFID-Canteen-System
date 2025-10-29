@@ -1,6 +1,18 @@
 [
-  { "food": "Sandwich", "price": 25.0 },
-  { "food": "Tea", "price": 10.0 },
-  { "food": "Juice", "price": 30.0 },
-  { "food": "Burger", "price": 50.0 }
+    {
+        "food": "Tea",
+        "price": 10
+    },
+    {
+        "food": "Coffee",
+        "price": 25
+    },
+    {
+        "food": "Maggi",
+        "price": 65
+    },
+    {
+        "food": "Veg Sandwich",
+        "price": 80
+    }
 ]
