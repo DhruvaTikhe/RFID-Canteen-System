@@ -1,4 +1,4 @@
-# RFID base Contactless Canteen System
+# RFID based Contactless Canteen System
 This is an Arduino based MiniProject for creating a RFID system which uses RF cards to track credit (prepaid) and place orders.
 
 ## Goal
