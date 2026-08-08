@@ -12,7 +12,7 @@ This is an Arduino based MiniProject for creating a RFID system which uses RF ca
 - MFRC522
 - MIFARE Classic 1K Cards
 
-Software
+## Software
 - Server - Python Flask
 - Scripting - C++ for Arduino
 - Webpage stack - JS, JSON, HTML, CSS
